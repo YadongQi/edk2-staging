@@ -266,6 +266,17 @@ IoMmuMap (
                MapInfo->NumberOfPages,
                TRUE
                );
+    DEBUG((DEBUG_INFO, "HACKAHACK: set shared: 0x%lx, 0x%lx\n", MapInfo->PlainTextAddress, MapInfo->NumberOfPages));
+    if (0x3B569000 == MapInfo->PlainTextAddress) {
+        MemEncryptTdxSetPageEncMask (
+               0,
+               MapInfo->PlainTextAddress,
+               MapInfo->NumberOfPages,
+               TRUE
+        );
+        int *p = (int *)MapInfo->PlainTextAddress;
+        DEBUG((DEBUG_INFO, "HACKAHACKP: set private: 0x%lx, 0x%lx, val=0x%x\n", MapInfo->PlainTextAddress, MapInfo->NumberOfPages, *p));
+    }
   }
   ASSERT_EFI_ERROR (Status);
   if (EFI_ERROR (Status)) {
